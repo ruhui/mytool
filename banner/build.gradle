@@ -25,7 +25,6 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    provided 'com.android.support:support-v4:+'
 }
 
 /*直接使用大神的控件，这里只是做了一些小修改而已*/
