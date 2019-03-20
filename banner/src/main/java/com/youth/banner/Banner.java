@@ -9,6 +9,7 @@ import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -469,11 +470,45 @@ public class Banner extends FrameLayout implements OnPageChangeListener {
         }
     };
 
+
+    private float FLIP_DISTANCE = 50;
+    /****
+     * 滑动距离及坐标 归还父控件焦点
+     ****/
+    private float xDistance, yDistance, xLast, yLast;
+
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
-//        Log.i(tag, ev.getAction() + "--" + isAutoPlay);
         if (isAutoPlay) {
             int action = ev.getAction();
+
+            switch (ev.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    xDistance = yDistance = 0f;
+                    xLast = ev.getX();
+                    yLast = ev.getY();
+                    stopAutoPlay();
+                    break;
+                case MotionEvent.ACTION_MOVE:
+                    final float curX = ev.getX();
+                    final float curY = ev.getY();
+                    xDistance += Math.abs(curX - xLast);
+                    yDistance += Math.abs(curY - yLast);
+                    xLast = curX;
+                    yLast = curY;
+                    if (yDistance > xDistance && yDistance > FLIP_DISTANCE) {
+                        getParent().requestDisallowInterceptTouchEvent(false);
+                    } else {
+                        getParent().requestDisallowInterceptTouchEvent(true);
+                    }
+                    break;
+                case MotionEvent.ACTION_UP:
+                case MotionEvent.ACTION_CANCEL:
+                case MotionEvent.ACTION_OUTSIDE:
+                    getParent().requestDisallowInterceptTouchEvent(false);
+                    startAutoPlay();
+                    break;
+            }
             if (action == MotionEvent.ACTION_UP || action == MotionEvent.ACTION_CANCEL
                     || action == MotionEvent.ACTION_OUTSIDE) {
                 startAutoPlay();
