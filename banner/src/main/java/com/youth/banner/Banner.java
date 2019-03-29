@@ -59,7 +59,7 @@ public class Banner extends FrameLayout implements OnPageChangeListener {
     private int lastPosition = 1;
     private int scaleType = 1;
     private List<String> titles;
-    private List imageUrls;
+    private List<BaseObjectBanner> imageUrls;
     private List<View> imageViews;
     private List<ImageView> indicatorImages;
     private Context context;
@@ -233,19 +233,19 @@ public class Banner extends FrameLayout implements OnPageChangeListener {
         return this;
     }
 
-    public Banner setImages(List<?> imageUrls) {
+    public Banner setImages(List<BaseObjectBanner> imageUrls) {
         this.imageUrls = imageUrls;
         this.count = imageUrls.size();
         return this;
     }
 
-    public void update(List<?> imageUrls, List<String> titles) {
+    public void update(List<BaseObjectBanner> imageUrls, List<String> titles) {
         this.titles.clear();
         this.titles.addAll(titles);
         update(imageUrls);
     }
 
-    public void update(List<?> imageUrls) {
+    public void update(List<BaseObjectBanner> imageUrls) {
         this.imageUrls.clear();
         this.imageViews.clear();
         this.indicatorImages.clear();
