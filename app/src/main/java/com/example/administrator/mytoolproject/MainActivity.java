@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import com.example.administrator.mytoolproject.banner.BannerActivity;
 import com.ruhui.network.ApiCilent;
 import com.ruhui.network.ApicilentParam;
 
@@ -25,6 +26,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent_api = new Intent(MainActivity.this, ApiTestActivity.class);
+                startActivity(intent_api);
+            }
+        });
+
+        findViewById(R.id.btn_banner).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent_api = new Intent(MainActivity.this, BannerActivity.class);
                 startActivity(intent_api);
             }
         });

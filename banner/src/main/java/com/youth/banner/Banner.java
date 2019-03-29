@@ -332,7 +332,7 @@ public class Banner extends FrameLayout implements OnPageChangeListener {
         }
     }
 
-    private void setImageList(List<?> imagesUrl) {
+    private void setImageList(List<BaseObjectBanner> imagesUrl) {
         if (imagesUrl == null || imagesUrl.size() <= 0) {
             bannerDefaultImage.setVisibility(VISIBLE);
             Log.e(tag, "The image data set is empty.");
@@ -341,29 +341,32 @@ public class Banner extends FrameLayout implements OnPageChangeListener {
         bannerDefaultImage.setVisibility(GONE);
         initImages();
         for (int i = 0; i <= count + 1; i++) {
+            BaseObjectBanner objectBanner = null;
+            if (i == 0) {
+                objectBanner = imagesUrl.get(count - 1);
+            } else if (i == count + 1) {
+                objectBanner = imagesUrl.get(0);
+            } else {
+                objectBanner = imagesUrl.get(i - 1);
+            }
+
             View imageView = null;
             if (imageLoader != null) {
-                imageView = imageLoader.createImageView(context);
+                imageView = imageLoader.createImageView(context, objectBanner.getType());
             }
             if (imageView == null) {
                 imageView = new ImageView(context);
             }
             setScaleType(imageView);
-            Object url = null;
-            if (i == 0) {
-                url = imagesUrl.get(count - 1);
-            } else if (i == count + 1) {
-                url = imagesUrl.get(0);
-            } else {
-                url = imagesUrl.get(i - 1);
-            }
+
             imageViews.add(imageView);
             if (imageLoader != null)
-                imageLoader.displayImage(context, url, imageView);
+                imageLoader.displayImage(context, objectBanner, imageView);
             else
                 Log.e(tag, "Please set images loader.");
         }
     }
+
 
     private void setScaleType(View imageView) {
         if (imageView instanceof ImageView) {

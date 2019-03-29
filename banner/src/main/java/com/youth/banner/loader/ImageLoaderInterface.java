@@ -9,6 +9,6 @@ import java.io.Serializable;
 public interface ImageLoaderInterface<T extends View> extends Serializable {
 
     void displayImage(Context context, Object path, T imageView);
-
-    T createImageView(Context context);
+    //type 1为视频，2为图片
+    T createImageView(Context context, int type);
 }
