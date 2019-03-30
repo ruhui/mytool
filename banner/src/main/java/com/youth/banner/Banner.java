@@ -673,4 +673,9 @@ public class Banner extends FrameLayout implements OnPageChangeListener {
     public void releaseBanner() {
         handler.removeCallbacksAndMessages(null);
     }
+
+    /*获取当前的 View*/
+    public View getCurturnView(){
+        return imageViews.get(viewPager.getCurrentItem());
+    }
 }
