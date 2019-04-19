@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
@@ -551,6 +552,11 @@ public class Banner extends FrameLayout implements OnPageChangeListener {
         public Object instantiateItem(ViewGroup container, final int position) {
             container.addView(imageViews.get(position));
             View view = imageViews.get(position);
+            ViewGroup.LayoutParams lp = view.getLayoutParams();
+            WindowManager wm = (WindowManager) context
+                    .getSystemService(Context.WINDOW_SERVICE);
+            lp.width = wm.getDefaultDisplay().getWidth();
+            view.setLayoutParams(lp);
             if (bannerListener != null) {
                 view.setOnClickListener(new OnClickListener() {
                     @Override
