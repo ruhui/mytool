@@ -491,6 +491,7 @@ public class Banner extends FrameLayout implements OnPageChangeListener {
                     xDistance = yDistance = 0f;
                     xLast = ev.getX();
                     yLast = ev.getY();
+                    getParent().requestDisallowInterceptTouchEvent(true);
                     stopAutoPlay();
                     break;
                 case MotionEvent.ACTION_MOVE:
