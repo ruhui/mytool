@@ -683,6 +683,9 @@ public class Banner extends FrameLayout implements OnPageChangeListener {
 
     /*获取当前的 View*/
     public View getCurturnView(){
+        if (viewPager == null || imageViews == null || imageViews.size() <= 0){
+            return numIndicator;
+        }
         return imageViews.get(viewPager.getCurrentItem());
     }
 }
