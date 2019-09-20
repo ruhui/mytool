@@ -695,6 +695,9 @@ public class Banner extends FrameLayout implements OnPageChangeListener {
 
     /*返回当前数据*/
     public BaseObjectBanner getCurrenBaseObject(){
+        if (imageUrls.size() <= currentItem){
+            return null;
+        }
         return imageUrls.get(currentItem);
     }
 }
