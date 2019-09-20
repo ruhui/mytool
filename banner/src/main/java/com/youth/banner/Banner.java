@@ -72,7 +72,6 @@ public class Banner extends FrameLayout implements OnPageChangeListener {
     private BannerPagerAdapter adapter;
     private OnPageChangeListener mOnPageChangeListener;
     private BannerScroller mScroller;
-    private OnBannerClickListener bannerListener;
     private OnBannerListener listener;
     private DisplayMetrics dm;
 
@@ -102,14 +101,14 @@ public class Banner extends FrameLayout implements OnPageChangeListener {
         imageViews.clear();
         handleTypedArray(context, attrs);
         View view = LayoutInflater.from(context).inflate(mLayoutResId, this, true);
-        bannerDefaultImage = (ImageView) view.findViewById(R.id.bannerDefaultImage);
-        viewPager = (BannerViewPager) view.findViewById(R.id.bannerViewPager);
-        titleView = (LinearLayout) view.findViewById(R.id.titleView);
-        indicator = (LinearLayout) view.findViewById(R.id.circleIndicator);
-        indicatorInside = (LinearLayout) view.findViewById(R.id.indicatorInside);
-        bannerTitle = (TextView) view.findViewById(R.id.bannerTitle);
-        numIndicator = (TextView) view.findViewById(R.id.numIndicator);
-        numIndicatorInside = (TextView) view.findViewById(R.id.numIndicatorInside);
+        bannerDefaultImage = view.findViewById(R.id.bannerDefaultImage);
+        viewPager = view.findViewById(R.id.bannerViewPager);
+        titleView = view.findViewById(R.id.titleView);
+        indicator = view.findViewById(R.id.circleIndicator);
+        indicatorInside = view.findViewById(R.id.indicatorInside);
+        bannerTitle = view.findViewById(R.id.bannerTitle);
+        numIndicator = view.findViewById(R.id.numIndicator);
+        numIndicatorInside = view.findViewById(R.id.numIndicatorInside);
         bannerDefaultImage.setImageResource(bannerBackgroundImage);
         initViewPagerScroll();
     }
@@ -168,13 +167,13 @@ public class Banner extends FrameLayout implements OnPageChangeListener {
     public Banner setIndicatorGravity(int type) {
         switch (type) {
             case BannerConfig.LEFT:
-                this.gravity = Gravity.LEFT | Gravity.CENTER_VERTICAL;
+                this.gravity = Gravity.START | Gravity.CENTER_VERTICAL;
                 break;
             case BannerConfig.CENTER:
                 this.gravity = Gravity.CENTER;
                 break;
             case BannerConfig.RIGHT:
-                this.gravity = Gravity.RIGHT | Gravity.CENTER_VERTICAL;
+                this.gravity = Gravity.END | Gravity.CENTER_VERTICAL;
                 break;
         }
         return this;
@@ -342,7 +341,7 @@ public class Banner extends FrameLayout implements OnPageChangeListener {
         bannerDefaultImage.setVisibility(GONE);
         initImages();
         for (int i = 0; i <= count + 1; i++) {
-            BaseObjectBanner objectBanner = null;
+            BaseObjectBanner objectBanner;
             if (i == 0) {
                 objectBanner = imagesUrl.get(count - 1);
             } else if (i == count + 1) {
@@ -527,7 +526,7 @@ public class Banner extends FrameLayout implements OnPageChangeListener {
     /**
      * 返回真实的位置
      *
-     * @param position
+     * @param position 真实的位置
      * @return 下标从0开始
      */
     public int toRealPosition(int position) {
@@ -558,16 +557,16 @@ public class Banner extends FrameLayout implements OnPageChangeListener {
                     .getSystemService(Context.WINDOW_SERVICE);
             lp.width = wm.getDefaultDisplay().getWidth();
             view.setLayoutParams(lp);
-            if (bannerListener != null) {
-                view.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Log.e(tag, "你正在使用旧版点击事件接口，下标是从1开始，" +
-                                "为了体验请更换为setOnBannerListener，下标从0开始计算");
-                        bannerListener.OnBannerClick(position);
-                    }
-                });
-            }
+//            if (bannerListener != null) {
+//                view.setOnClickListener(new OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        Log.e(tag, "你正在使用旧版点击事件接口，下标是从1开始，" +
+//                                "为了体验请更换为setOnBannerListener，下标从0开始计算");
+//                        bannerListener.OnBannerClick(position);
+//                    }
+//                });
+//            }
             if (listener != null) {
                 view.setOnClickListener(new OnClickListener() {
                     @Override
@@ -656,11 +655,11 @@ public class Banner extends FrameLayout implements OnPageChangeListener {
 
     }
 
-    @Deprecated
-    public Banner setOnBannerClickListener(OnBannerClickListener listener) {
-        this.bannerListener = listener;
-        return this;
-    }
+//    @Deprecated
+//    public Banner setOnBannerClickListener(OnBannerClickListener listener) {
+//        this.bannerListener = listener;
+//        return this;
+//    }
 
     /**
      * 废弃了旧版接口，新版的接口下标是从1开始，同时解决下标越界问题
@@ -687,5 +686,15 @@ public class Banner extends FrameLayout implements OnPageChangeListener {
             return numIndicator;
         }
         return imageViews.get(viewPager.getCurrentItem());
+    }
+
+    /*返回当前的position*/
+    public int getCurrentPosition(){
+        return currentItem;
+    }
+
+    /*返回当前数据*/
+    public BaseObjectBanner getCurrenBaseObject(){
+        return imageUrls.get(currentItem);
     }
 }
