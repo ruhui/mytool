@@ -18,6 +18,7 @@ public class ApiTestActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_api_test);
 
+        //this is test
         LoginRequest resquestParent = new LoginRequest();
         ResquestParent httpClient = new ResquestParent<>(resquestParent, "");
         ((MyApiService)ApiCilent.getApiService()).login(httpClient)
