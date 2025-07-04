@@ -11,6 +11,8 @@ import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+//为什么还要提交次数
+
 public class ApiTestActivity extends AppCompatActivity {
 
     @Override
